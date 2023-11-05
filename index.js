@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
@@ -30,6 +30,13 @@ async function run() {
 
     const jobsCollection = client.db("jobs").collection("collection")
 
+    app.get("/jobs/:id", async(req,res) => {
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await jobsCollection.findOne(query);
+      res.send(result);
+    })
+
     app.post("/jobs", async(req,res) => {
       const user = req.body;
       console.log(user);
@@ -47,6 +54,25 @@ async function run() {
       const result = await jobsCollection.find(query).toArray();
       res.send(result);
     })
+
+    app.delete("/jobs/:id", async(req,res) => {
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await jobsCollection.deleteOne(query);
+      res.send(result);
+    })
+
+    // app.put("/jobs/:id", async(req,res) => {
+    //   const id = req.params.id;
+    //   const query = {_id : new ObjectId(id)};
+    //   const options = {upsert:true};
+    //   const updatedJobs = req.body;
+    //   const updatedDoc = {
+    //     $set: {
+
+    //     }
+    //   }
+    // })
 
 
 
