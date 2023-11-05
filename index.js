@@ -28,6 +28,26 @@ async function run() {
   try {
     await client.connect();
 
+    const jobsCollection = client.db("jobs").collection("collection")
+
+    app.post("/jobs", async(req,res) => {
+      const user = req.body;
+      console.log(user);
+      const result = await jobsCollection.insertOne(user);
+      console.log(result);
+      res.send(result);
+    })
+
+    app.get("/jobs",async(req,res) => {
+      let query = {};
+      if(req.query?.email){
+        query = {email: req.query.email
+        }
+      };
+      const result = await jobsCollection.find(query).toArray();
+      res.send(result);
+    })
+
 
 
     await client.db("admin").command({ ping: 1 });
