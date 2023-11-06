@@ -28,8 +28,19 @@ async function run() {
   try {
     await client.connect();
 
-    const jobsCollection = client.db("jobs").collection("collection")
+    const jobsCollection = client.db("jobs").collection("collection");
+    const bidCollection = client.db("jobs").collection("bidCollection");
 
+
+    // Bid api
+    app.post("/bids", async(req,res) => {
+      const user = req.body;
+      console.log(user);
+      const result = await bidCollection.insertOne(user);
+      res.send(result);
+    } )
+
+    // Jobs api
     app.get("/jobs/:id", async(req,res) => {
       const id = req.params.id;
       const query = {_id: new ObjectId(id)};
