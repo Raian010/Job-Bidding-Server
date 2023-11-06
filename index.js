@@ -40,6 +40,22 @@ async function run() {
       res.send(result);
     } )
 
+    app.get("/bids", async(req,res) => {
+      const result = await bidCollection.find().toArray();
+      res.send(result);
+    })
+
+    app.get("/bids", async(req,res) => {
+
+      let query = {};
+      if(req.query?.buyer){
+          query = {email:req.query.buyer}
+      }
+      const cursor = bidCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
     // Jobs api
     app.get("/jobs/:id", async(req,res) => {
       const id = req.params.id;
