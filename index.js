@@ -78,7 +78,7 @@ async function run() {
         }
       }
       const result = await jobsCollection.updateOne(query,updatedDoc,options);
-      res.send(result); 
+      res.send(result);
     })
 
 
