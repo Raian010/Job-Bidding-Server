@@ -62,17 +62,24 @@ async function run() {
       res.send(result);
     })
 
-    // app.put("/jobs/:id", async(req,res) => {
-    //   const id = req.params.id;
-    //   const query = {_id : new ObjectId(id)};
-    //   const options = {upsert:true};
-    //   const updatedJobs = req.body;
-    //   const updatedDoc = {
-    //     $set: {
-
-    //     }
-    //   }
-    // })
+    app.put("/jobs/:id", async(req,res) => {
+      const id = req.params.id;
+      const query = {_id : new ObjectId(id)};
+      const options = {upsert:true};
+      const updatedJobs = req.body;
+      const updatedDoc = {
+        $set: {
+             job: updatedJobs.job,
+             deadline: updatedJobs.deadline,
+             category:updatedJobs.category,
+             maximum: updatedJobs.maximum,
+             minimum: updatedJobs.minimum,
+             description: updatedJobs.description
+        }
+      }
+      const result = await jobsCollection.updateOne(query,updatedDoc,options);
+      res.send(result); 
+    })
 
 
 
