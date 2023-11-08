@@ -25,7 +25,7 @@ const client = new MongoClient(uri, {
   },
 });
 
-// middleware personally
+// middleware 
 
 
 // const verifyToken = async(req,res,next) => {
@@ -85,7 +85,7 @@ async function run() {
     app.get("/bids/:email", async (req, res) => {
       const email = req.params.email;
      const query = {email : email}
-      const cursor = bidCollection.find(query);
+      const cursor = bidCollection.find(query).sort({status: 1});
       const result = await cursor.toArray();
       res.send(result);
     });
