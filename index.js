@@ -26,10 +26,7 @@ const client = new MongoClient(uri, {
 });
 
 // middleware personally
-// const logger = async(req,res,next) => {
-//   console.log('Called', req.originalUrl);
-//   next()
-// }
+
 
 // const verifyToken = async(req,res,next) => {
 //   const token = req.cookies?.token;
